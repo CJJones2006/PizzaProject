@@ -19,7 +19,6 @@ class Variety(Enum):
     Pepperoni = 1
     Pineapple = 2
 
-
 class Pizza:
     def __init__(self, sizeInInches, variety):
         self.sizeInInches = sizeInInches
