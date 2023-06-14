@@ -23,7 +23,7 @@ class Pizza:
     def __init__(self, sizeInInches, variety):
         self.sizeInInches = sizeInInches
         self.variety = variety
-
+        
         if self.variety == Variety.Margherita:
             self.ingredients = ["Tomato Sauce", "Mozzerella", "Basil"]
 
