@@ -1,3 +1,4 @@
+from enum import Enum
 import sqlite3
 
 #connection = sqlite3.connect("tutorial.db")
@@ -13,11 +14,19 @@ import sqlite3
 #
 #connection.commit()
 
+class Variety(Enum):
+    Margherita = 0
+    Pepperoni = 1
+    Pineapple = 2
+
+
 class Pizza:
-    def __init__(self, ingredients, sizeInInches, variety):
-        self.ingredients = ingredients
+    def __init__(self, sizeInInches, variety):
         self.sizeInInches = sizeInInches
         self.variety = variety
+
+        if self.variety == Variety.Margherita:
+            self.ingredients = ["Tomato Sauce", "Mozzerella", "Basil"]
 
 class Customer:
     def __init__(self, customerID, firstName, lastName, email, mobileNumber):
@@ -33,6 +42,6 @@ class CustomerOrders:
         self.cost = cost
         self.pizzas = pizzas
 
-margheritaPizza = Pizza(["base", "cheese", "tomato sauce"], 12, "Margherita")
+margheritaPizza = Pizza(12, Variety.Margherita)
 
-print(margheritaPizza.sizeInInches)
+print(margheritaPizza.ingredients)
