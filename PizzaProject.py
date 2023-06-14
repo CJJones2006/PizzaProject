@@ -26,6 +26,7 @@ class Pizza:
         
         if self.variety == Variety.Margherita:
             self.ingredients = ["Tomato Sauce", "Mozzerella", "Basil"]
+    
 
 class Customer:
     def __init__(self, customerID, firstName, lastName, email, mobileNumber):
