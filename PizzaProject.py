@@ -1,17 +1,17 @@
 import sqlite3
 
-connection = sqlite3.connect("tutorial.db")
-cursor = connection.cursor()
-
-#cursor.execute("CREATE TABLE movie(title, year, score)")
-
-cursor.execute("""
-    INSERT INTO movie VALUES
-        ('Monty Python and the Holy Grail', 1975, 8.2),
-        ('Interstellar', 2014, 8.7)
-""")
-
-connection.commit()
+#connection = sqlite3.connect("tutorial.db")
+#cursor = connection.cursor()
+#
+##cursor.execute("CREATE TABLE movie(title, year, score)")
+#
+#cursor.execute("""
+#    INSERT INTO movie VALUES
+#        ('Monty Python and the Holy Grail', 1975, 8.2),
+#        ('Interstellar', 2014, 8.7)
+#""")
+#
+#connection.commit()
 
 class Pizza:
     def __init__(self, ingredients, sizeInInches, variety):
@@ -26,3 +26,11 @@ class Customer:
         self.lastName = lastName
         self.email = email
         self.mobileNumber = mobileNumber
+
+class CustomerOrders(Customer):
+    def __init__(self, orderNumber, cost):
+        self.orderNumber = orderNumber
+        self.cost = cost
+
+margheritaPizza = Pizza(["base", "cheese", "tomato sauce"], 12, "Margherita")
+print(margheritaPizza.sizeInInches)
