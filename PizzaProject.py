@@ -27,10 +27,12 @@ class Customer:
         self.email = email
         self.mobileNumber = mobileNumber
 
-class CustomerOrders(Customer):
-    def __init__(self, orderNumber, cost):
+class CustomerOrders:
+    def __init__(self, orderNumber, cost, pizzas):
         self.orderNumber = orderNumber
         self.cost = cost
+        self.pizzas = pizzas
 
 margheritaPizza = Pizza(["base", "cheese", "tomato sauce"], 12, "Margherita")
+
 print(margheritaPizza.sizeInInches)
