@@ -1,19 +1,6 @@
 from enum import Enum
-from re import match
-import sqlite3
-
-#connection = sqlite3.connect("tutorial.db")
-#cursor = connection.cursor()
-#
-##cursor.execute("CREATE TABLE movie(title, year, score)")
-#
-#cursor.execute("""
-#    INSERT INTO movie VALUES
-#        ('Monty Python and the Holy Grail', 1975, 8.2),
-#        ('Interstellar', 2014, 8.7)
-#""")
-#
-#connection.commit()
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 class Variety(Enum):
     Margherita = 0
