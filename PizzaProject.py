@@ -1,6 +1,17 @@
 from enum import Enum
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os.path
+
+db = SQLAlchemy()
+app = Flask(__name__)
+db_name = "pizzacompany.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, db_name)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+db.init_app(app)
 
 class Variety(Enum):
     Margherita = 0
@@ -53,20 +64,15 @@ class Pizza:
 
         return cost
 
-
-class Customer:
-    def __init__(self, customerID, firstName, lastName, email, mobileNumber):
-        self.customerID = customerID
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-        self.mobileNumber = mobileNumber
-
 class CustomerOrders:
     def __init__(self, customer, orderNumber, pizzas):
         self.orderNumber = orderNumber
         self.pizzas = pizzas
 
-pizza1 = Pizza(14, Variety.Garlic)
-
-print(pizza1.getCost())
+class Customer(db.Model):
+    __tablename__ = "customers"
+    id = db.Column(db.Integer, primary_key=True)
+    firstName = db.Column(db.String)
+    lastName = db.Column(db.String)
+    email = db.Column(db.String)
+    mobileNumber = db.Column(db.String)
