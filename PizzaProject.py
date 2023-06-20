@@ -1,6 +1,8 @@
 from enum import Enum
+from tkinter.tix import Select
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import select
 import os.path
 
 db = SQLAlchemy()
@@ -76,3 +78,27 @@ class Customer(db.Model):
     lastName = db.Column(db.String)
     email = db.Column(db.String)
     mobileNumber = db.Column(db.String)
+
+    def __init__(self, firstName, lastName, email, mobileNumber):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.mobileNumber = mobileNumber
+
+@app.route('/')
+def index():
+    try:
+        customers = db.session.execute(db.select(Customer)).scalars()
+
+        customer_text = '<ul>'
+        for customer in customers:
+            customer_text += '<li>' + customer.name + ', ' + customer.color + '</li>'
+        customer_text += '</ul>'
+        return customer_text
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+print(db.session.execute(select(Customer)))
