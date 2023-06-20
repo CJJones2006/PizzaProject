@@ -1,19 +1,9 @@
 from enum import Enum
-from tkinter.tix import Select
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select
 import os.path
+import sqlite3
 
-db = SQLAlchemy()
-app = Flask(__name__)
-db_name = "pizzacompany.db"
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, db_name)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
-db.init_app(app)
+connection = sqlite3.connect("pizzacompany.db")
+cursor = connection.cursor()
 
 class Variety(Enum):
     Margherita = 0
@@ -71,34 +61,40 @@ class CustomerOrders:
         self.orderNumber = orderNumber
         self.pizzas = pizzas
 
-class Customer(db.Model):
-    __tablename__ = "customers"
-    id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String)
-    lastName = db.Column(db.String)
-    email = db.Column(db.String)
-    mobileNumber = db.Column(db.String)
-
-    def __init__(self, firstName, lastName, email, mobileNumber):
+class Customer():
+    def __init__(self, firstName, lastName, email):
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
-        self.mobileNumber = mobileNumber
 
-@app.route('/')
-def index():
-    try:
-        customers = db.session.execute(db.select(Customer)).scalars()
+def DisplayCustomers():
+    cursor.execute("SELECT * FROM customers")
+    return cursor.fetchall()
 
-        customer_text = '<ul>'
-        for customer in customers:
-            customer_text += '<li>' + customer.name + ', ' + customer.color + '</li>'
-        customer_text += '</ul>'
-        return customer_text
-    except Exception as e:
-        # e holds description of the error
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+def AddCustomer():
+    firstName = input("First Name: ")
+    lastName = input("Last Name: ")
+    email = input("Email Address: ")
 
-print(db.session.execute(select(Customer)))
+    statement = '''INSERT INTO customers(firstName, lastName, email)
+                   VALUES(?, ?, ?)'''
+    values = (firstName, lastName, email)
+    cursor.execute(statement, values)
+    connection.commit()
+    print(f"Updated table:\n{DisplayCustomers()}")
+
+def DeleteLastCustomer():
+    statement = '''DELETE FROM customers
+                   WHERE ID=(SELECT MAX(id) FROM customers)'''
+    cursor.execute(statement)
+    connection.commit()
+    print(f"Updated table:\n{DisplayCustomers()}")
+
+print("1: Add Customer")
+print("2: Delete Last Customer")
+
+menu = int(input("> "))
+if menu == 1:
+    AddCustomer()
+elif menu == 2:
+    DeleteLastCustomer()
