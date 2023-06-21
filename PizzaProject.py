@@ -1,5 +1,4 @@
 from enum import Enum
-import os.path
 import sqlite3
 
 connection = sqlite3.connect("pizzacompany.db")
@@ -30,31 +29,6 @@ class Pizza:
             self.ingredients = ["Pizza dough", "Tomato Sauce", "Mozzerella", "Ham", "Mushrooms"]
         elif self.variety == Variety.Garlic:
             self.ingredients = ["Pizza dough", "Mozzerella", "Garlic"]
-
-    def getCost(self):
-        if self.sizeInInches == 7:
-            cost = 5.00
-        elif self.sizeInInches == 10:
-            cost = 7.00
-        elif self.sizeInInches == 12:
-            cost = 8.00
-        elif self.sizeInInches == 14:
-            cost = 10.00
-        
-        if self.variety == Variety.Margherita:
-            cost += 0.00
-        elif self.variety == Variety.Pepperoni:
-            cost += 1.00
-        elif self.variety == Variety.Pineapple:
-            cost += 1.00
-        elif self.variety == Variety.Meaty:
-            cost += 2.00
-        elif self.variety == Variety.HamMushroom:
-            cost += 2.00
-        elif self.variety == Variety.Garlic:
-            cost += 0.50
-
-        return cost
 
 class CustomerOrders:
     def __init__(self, customer, orderNumber, pizzas):
