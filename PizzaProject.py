@@ -64,11 +64,14 @@ def DeleteLastCustomer():
     connection.commit()
     print(f"Updated table:\n{DisplayCustomers()}")
 
-print("1: Add Customer")
-print("2: Delete Last Customer")
+print("1: Display Customer Table")
+print("2: Add Customer")
+print("3: Delete Last Customer")
 
 menu = int(input("> "))
 if menu == 1:
-    AddCustomer()
+    print(DisplayCustomers())
 elif menu == 2:
+    AddCustomer()
+elif menu == 3:
     DeleteLastCustomer()
